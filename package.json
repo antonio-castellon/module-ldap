@@ -1,0 +1,26 @@
+{
+  "name": "@acastellon/ldap",
+  "version": "1.0.0",
+  "description": "LDAP module to validate and filter roles from a user",
+  "main": "ldap.js",
+  "scripts": {
+    "test": "set SERVER_ENVIRONMENT=local &&  node test.js",
+    "test-dev": "set SERVER_ENVIRONMENT=DEV &&  node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antonio-castellon/ldap.git"
+  },
+  "keywords": [
+    "ldap"
+  ],
+  "dependencies": {
+    "activedirectory": "^0.7.2"
+  },
+  "author": "Antonio Castellon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/antonio-castellon/ldap/issues"
+  },
+  "homepage": "https://github.com/antonio-castellon/ldap#readme"
+}
