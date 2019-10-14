@@ -15,8 +15,7 @@ module.exports = function(setup) {
   // CONFIGURATION
   //
   const ad = new ActiveDirectory(setup);
-
-  let listOfRoles = Object.keys(setup.ROLES);
+  const listOfRoles = Object.keys(setup.ROLES);
 
   process.env.SERVER_ENVIRONMENT = process.env.SERVER_ENVIRONMENT.trim(); //trick. npm is adding in script a blank character
 

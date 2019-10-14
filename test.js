@@ -1,7 +1,7 @@
 //
 // test module
 //
-const setup = require('./ldap.config.js');
+const setup = require('./config.ldap.js');
 const ldap = require('./ldap.js')(setup);
 
 ldap.getRoles('acastellon').then(function(value) { console.log(value); });
