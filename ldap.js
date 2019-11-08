@@ -1,3 +1,4 @@
+"use strict";
 // -- LDAP Simple access system
 //
 // Castellon.CH - 2019 (c)
@@ -47,7 +48,6 @@ module.exports = function(setup) {
   }
 
   function getMockupRoles(userName){
-    if (setup.MOCKUP_USERS.indexOf(userName) >= 0){  IS_TRUE = true;  }
 
     let roles = {  user : userName  }
 
