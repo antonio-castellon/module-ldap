@@ -24,6 +24,7 @@ module.exports = function(setup) {
   // ASSIGNATIONS
   //
   model.LDAP_URL = setup.url;
+  model.DOMAIN = setup.DOMAIN;
   model.isInGroup = isInGroup;
   model.getRoles = getRoles;
   model.getIMDL = getIMDL;
