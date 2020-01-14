@@ -83,8 +83,7 @@ module.exports = function(setup) {
           let _group = groups[i].cn.toUpperCase();
 
           listOfRoles.forEach(function(value){
-
-            if (_group.indexOf( setup.ROLES[value] + process.env.SERVER_ENVIRONMENT) > 0) {
+            if (_group.indexOf( setup.ROLES[value] ) > 0) {
               roles['is' + value] = true;
             }
           });

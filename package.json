@@ -1,11 +1,10 @@
 {
   "name": "@acastellon/ldap",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "LDAP module to validate and filter roles from a user",
   "main": "ldap.js",
   "scripts": {
-    "test": "set SERVER_ENVIRONMENT=local &&  node test.js",
-    "test-dev": "set SERVER_ENVIRONMENT=DEV &&  node test.js"
+    "test": "set SERVER_ENVIRONMENT=local &&  node test.js"
   },
   "repository": {
     "type": "git",

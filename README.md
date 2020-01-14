@@ -1,8 +1,9 @@
 # ldap
 LDAP generic interface module that filter and returns the available roles depending of previous definition file
 
-it depends of the environment variable named: SERVER_ENVIRONMENT, 
-in case of value equals to "local", it will use the mockup configuration from following setup file.
+the validation is taking the SERVER_ENVIRONMENT variable as a reference, 
+in case of value equals to "local", it will not use the ldap validation and it will use 
+the mockup users and roles defined in the setup file.
 
     module.exports = {
           url: 'ldap://<you-server>:389'
