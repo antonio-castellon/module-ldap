@@ -83,7 +83,7 @@ module.exports = function(setup) {
           let _group = groups[i].cn.toUpperCase();
 
           listOfRoles.forEach(function(value){
-            if (_group.indexOf( setup.ROLES[value] ) > 0) {
+            if (_group.includes( setup.ROLES[value] )) {
               roles['is' + value] = true;
             }
           });
