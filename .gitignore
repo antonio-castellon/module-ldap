@@ -1,2 +1,4 @@
 # .gitignore
 /config.ldap.js
+module-ldap.iml
+/node_modules/
