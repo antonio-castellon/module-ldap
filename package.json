@@ -1,6 +1,6 @@
 {
   "name": "@acastellon/ldap",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "LDAP module to validate and filter roles from a user",
   "main": "ldap.js",
   "scripts": {
