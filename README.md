@@ -24,8 +24,22 @@ ldap.getRoles('username').then(roles => console.log(roles.isAdmin));
 ```
 
 ## API
-- getRoles(userName): Promise<{user, isXXX: bool, ...}>
-- isInGroup, getIMDL, getEmail
+
+### getRoles(userName): Promise<{user: string, isXXX: boolean, ...}>
+
+Main method. Returns user + boolean flags for each key in ROLES.
+
+- In local mode: driven purely by MOCKUP_ROLES.
+- Otherwise: queries ActiveDirectory groups and matches against ROLES values (case-insensitive contains).
+
+### isInGroup(userName, group): Promise<boolean>
+
+### getIMDL(userName): Promise<groups[]>
+Raw membership.
+
+### getEmail(userName): Promise<string>
+
+Also exposes: LDAP_URL, DOMAIN on the instance.
 
 ## License
 
