@@ -1,28 +1,21 @@
 "use strict";
 // -- LDAP Simple access system
 //
-// Castellon.CH - 2019 (c)
+// Castellon.CH - 2019-2026 (c)
 // Author: Antonio Castellon - antonio@castellon.ch
 //
 // see the template attached for structure file passed to
-//
+
 const ActiveDirectory = require('activedirectory');
 
 module.exports = function(setup) {
 
   const model = {};
 
-  //
-  // CONFIGURATION
-  //
   const ad = new ActiveDirectory(setup);
   const listOfRoles = Object.keys(setup.ROLES);
 
-  process.env.SERVER_ENVIRONMENT = process.env.SERVER_ENVIRONMENT.trim(); //trick. npm is adding in script a blank character
-
-  //
   // ASSIGNATIONS
-  //
   model.LDAP_URL = setup.url;
   model.DOMAIN = setup.DOMAIN;
   model.isInGroup = isInGroup;
@@ -30,105 +23,73 @@ module.exports = function(setup) {
   model.getIMDL = getIMDL;
   model.getEmail = getEmail;
 
-
-  //
-  //  FUNCTION BODY
-  //
-
-
-  function isInGroup(userName,group){
-
-    return new Promise(function(resolve, reject){
-      ad.isUserMemberOf(  userName,  group,
-        function(err, isMember) {
-          resolve(isMember);
-        }
-      );
-    })
-
-  }
-
-  function getMockupRoles(userName){
-
-    let roles = {  user : userName  }
-
-    listOfRoles.forEach(function(value){
-      roles['is' + value] = (setup.MOCKUP_ROLES.indexOf(value) >= 0) ? true : false;
+  function isInGroup(userName, group) {
+    return new Promise((resolve) => {
+      ad.isUserMemberOf(userName, group, (err, isMember) => {
+        resolve(isMember);
+      });
     });
-
-    return roles;
-
   }
 
+  function getMockupRoles(userName) {
+    const roles = { user: userName };
+    listOfRoles.forEach((value) => {
+      roles['is' + value] = (setup.MOCKUP_ROLES.indexOf(value) >= 0);
+    });
+    return roles;
+  }
 
-  function getRoles(userName)
-  {
-
-    if (process.env.SERVER_ENVIRONMENT == 'local') {
-      return new Promise(function (resolve, reject) { resolve(getMockupRoles(userName)); });
+  function getRoles(userName) {
+    if (process.env.SERVER_ENVIRONMENT === 'local') {
+      return Promise.resolve(getMockupRoles(userName));
     }
 
-    return new Promise(function(resolve, reject) {
-
-      ad.getGroupMembershipForUser(userName, function(err, groups) {
-
-        let roles = { user : userName };
-
-        listOfRoles.forEach(function(value){
+    return new Promise((resolve) => {
+      ad.getGroupMembershipForUser(userName, (err, groups) => {
+        const roles = { user: userName };
+        listOfRoles.forEach((value) => {
           roles['is' + value] = false;
         });
 
-        for (var i in groups) {
-
-          let _group = groups[i].cn.toUpperCase();
-
-          listOfRoles.forEach(function(value){
-            if (_group.includes( setup.ROLES[value] )) {
-              roles['is' + value] = true;
-            }
-          });
+        if (groups) {
+          for (const g of groups) {
+            const _group = g.cn.toUpperCase();
+            listOfRoles.forEach((value) => {
+              if (_group.includes(setup.ROLES[value])) {
+                roles['is' + value] = true;
+              }
+            });
+          }
         }
-
         resolve(roles);
-      })
-
-    })
-
+      });
+    });
   }
 
-  function getIMDL(userName){
-
-    return new Promise(function(resolve, reject) {
-
-      ad.getGroupMembershipForUser(userName, function(err, groups) {
-        resolve(groups);
-      })
-    })
+  function getIMDL(userName) {
+    return new Promise((resolve) => {
+      ad.getGroupMembershipForUser(userName, (err, groups) => {
+        resolve(groups || []);
+      });
+    });
   }
 
-  function getEmail(userName){
-    return new Promise(function(resolve, reject) {
-      ad.findUser(userName, function(err, user) {
+  function getEmail(userName) {
+    return new Promise((resolve, reject) => {
+      ad.findUser(userName, (err, user) => {
         if (err) {
-          console.log('ERROR: ' +JSON.stringify(err));
-          reject('ERROR: ' +JSON.stringify(err));
-          return
+          console.log('ERROR: ' + JSON.stringify(err));
+          reject('ERROR: ' + JSON.stringify(err));
+          return;
         }
-
-        if (! user) {
-          //console.log('User: ' + userName + ' not found.');
+        if (!user) {
           resolve('');
-        }
-        else {
-          //console.log('email found : ' + JSON.stringify(user.mail));
+        } else {
           resolve(JSON.stringify(user.mail));
         }
       });
-    })
+    });
   }
 
   return model;
-}
-
-
-
+};
