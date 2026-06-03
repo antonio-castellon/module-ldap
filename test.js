@@ -1,9 +1,7 @@
 //
 // test module
 //
-const setup = require('./config.ldap.js');
-const ldap = require('./ldap.js')(setup);
+const config = require('./config.ldap.template.js');
+const ldap = require('./ldap.js')(config);
 
-ldap.getRoles('acastellon').then(function(value) { console.log(value); });
-ldap.getIMDL('acastellon').then(function(value) { console.log(value[0]); });
-ldap.getEmail('acastellon').then(function(value) { console.log('@email : ' + value); });
+ldap.getRoles('acastellon').then(console.log).catch(console.error);
