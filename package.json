@@ -1,7 +1,7 @@
 {
   "name": "@acastellon/ldap",
-  "version": "1.1.0",
-  "description": "LDAP module to validate and filter roles from a user",
+  "version": "1.2.0",
+  "description": "LDAP module to validate and filter roles from a user (supports env var secrets for password/username)",
   "main": "ldap.js",
   "scripts": {
     "test": "node test.js"
