@@ -11,8 +11,30 @@ const ActiveDirectory = require('activedirectory');
 /**
  * LDAP role filter.
  * @param {object} setup - LDAP + ROLES + MOCKUP config
+ *
+ * Supports passwords/username from environment variables (LDAP_PASSWORD etc.)
+ * so they don't have to be hardcoded in config files.
  */
-module.exports = function(setup) {
+module.exports = function(setup = {}) {
+  // Shallow copy + env secret resolution (so callers like @acastellon/auth and direct
+  // users can omit secrets from their committed config).
+  setup = { ...setup };
+
+  function getSecret(provided, ...envNames) {
+    if (provided != null && typeof provided === 'string' && provided.length > 0 && !provided.startsWith('<')) {
+      return provided;
+    }
+    for (const envName of envNames) {
+      const val = process.env[envName];
+      if (val != null && val !== '') {
+        return val;
+      }
+    }
+    return provided;
+  }
+
+  setup.password = getSecret(setup.password, 'LDAP_PASSWORD', 'AUTH_LDAP_PASSWORD', 'AD_PASSWORD', 'LDAP_BIND_PASSWORD');
+  setup.username = getSecret(setup.username, 'LDAP_USERNAME', 'AUTH_LDAP_USERNAME', 'AD_USERNAME', 'LDAP_BIND_USER');
 
   const model = {};
 
